@@ -9,3 +9,19 @@ interface RegisterModal {
 interface PostModal {
   postModal: boolean;
 }
+
+interface Backdrop {
+  backdrop: boolean;
+}
+
+interface Dropdown {
+  dropdown: boolean;
+}
+
+interface PostModalFunc {
+  PostModalFunc: () => void;
+}
+
+interface PostModalFuncClose {
+  PostModalFuncClose: () => void;
+}

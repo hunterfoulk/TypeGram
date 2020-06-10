@@ -3,12 +3,12 @@
   height: 100vh;
   display: flex;
   //   background-color: Red;
+
   .post-modal {
     display: flex;
     flex-direction: column;
-    height: 200px;
+    padding-bottom: 20px;
     width: 600px;
-    // padding: 0px 10px;
     flex-direction: column;
     position: absolute;
     left: 50%;
@@ -33,6 +33,55 @@
       height: 50px;
       h1 {
         margin: 0px;
+      }
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      textarea {
+        resize: none;
+        outline: none;
+        font-size: 20px;
+        min-height: 250px;
+        min-width: 60%;
+        max-width: 100%;
+        border: 1px solid grey;
+      }
+      span {
+        font-size: 20px;
+        margin-bottom: 5px;
+      }
+      input {
+        text-align: center;
+        font-size: 23px;
+        // background-color: Red;
+      }
+      input[type="file"] {
+        color: transparent;
+        width: 140px;
+        margin-left: 2px;
+        margin-bottom: 20px;
+      }
+      button {
+        width: 100px;
+        height: 40px;
+        font-size: 18px;
+        background-color: #405de6;
+        border: 1px solid #405de6;
+        color: white;
+        margin-top: 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        .upload-icon {
+          position: relative;
+          top: 2px;
+          right: 2px;
+        }
+      }
+      button:hover {
+        background-color: #3c56d8;
+        border: 1px solid #3c56d8;
       }
     }
   }

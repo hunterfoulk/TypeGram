@@ -9,11 +9,23 @@ interface Props {
   setLogin: SetLogin;
   setRegister: SetRegister;
   setPostModal: SetPostModal;
+  setBackdrop: SetBackDrop;
+  setDropdown: SetDropDown;
+  dropdown: boolean;
+  PostModalFunc: () => void;
 }
 
-const Navbar: React.FC<Props> = ({ setLogin, setRegister, setPostModal }) => {
+const Navbar: React.FC<Props> = ({
+  setLogin,
+  setRegister,
+  setPostModal,
+  setBackdrop,
+  PostModalFunc,
+  setDropdown,
+  dropdown,
+}) => {
   const [modal, setModal] = useState(false);
-  const [dropdown, setDropdown] = useState<boolean>(false);
+
   const [{ auth }, dispatch] = useStateValue();
 
   const handleLogout = () => {
@@ -48,7 +60,7 @@ const Navbar: React.FC<Props> = ({ setLogin, setRegister, setPostModal }) => {
             </Tooltip>
             {dropdown && (
               <div className="dropdown">
-                <span onClick={() => setPostModal(true)} className="upload">
+                <span onClick={() => PostModalFunc()} className="upload">
                   Upload
                 </span>
                 <span onClick={() => handleLogout()} className="logout">
