@@ -1,0 +1,119 @@
+.navbar {
+  display: flex;
+  height: 50px;
+  background-color: white;
+  justify-content: space-evenly;
+  border-bottom: 1px solid rgb(204, 204, 204);
+  .left {
+    display: flex;
+    width: 50%;
+    justify-content: flex-end;
+    align-items: center;
+    span {
+      font-size: 24px;
+    }
+    // background-color: green;
+  }
+  .middle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+    // background-color: blue;
+    input {
+      height: 32px;
+      background-color: rgb(247, 247, 247);
+      border: 1px solid rgb(199, 199, 199);
+      outline: none;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+  }
+  .right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 50%;
+    // background-color: purple;
+    .dropdown {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      background-color: white;
+      top: 48px;
+      right: 18px;
+      padding: 0px 0px;
+      border-right: 1px solid rgb(172, 172, 172);
+      border-left: 1px solid rgb(172, 172, 172);
+      border-bottom: 1px solid rgb(172, 172, 172);
+      .upload {
+        border-bottom: 1px solid black;
+        padding-right: 5px;
+        padding-left: 5px;
+        padding-top: 5px;
+        padding-bottom: 10px;
+        // margin-bottom: 5px;
+        cursor: pointer;
+      }
+      .logout {
+        padding-right: 5px;
+        padding-left: 5px;
+        padding-top: 5px;
+        padding-bottom: 10px;
+        // margin-bottom: 5px;
+        cursor: pointer;
+      }
+      .upload:hover {
+        background-color: rgb(241, 241, 241);
+      }
+      .logout:hover {
+        background-color: rgb(241, 241, 241);
+      }
+    }
+    .tooltip {
+      position: relative;
+    }
+    img {
+      height: 42px;
+      width: 46px;
+      margin-right: 26px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .login-icon {
+      font-size: 30px;
+      margin-right: 35px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .nav-login-modal {
+      position: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      top: 47px;
+      right: 15px;
+      height: 80px;
+      background-color: white;
+      border-top: 1px solid rgb(204, 204, 204);
+      border-left: 1px solid rgb(204, 204, 204);
+      border-right: 1px solid rgb(204, 204, 204);
+      border-bottom: 1px solid rgb(204, 204, 204);
+      .login-button {
+        cursor: pointer;
+        width: 100%;
+        font-size: 20px;
+        text-align: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid black;
+      }
+      .signup-button {
+        width: 100%;
+        font-size: 20px;
+        text-align: center;
+        // padding: 5px 0px;
+        cursor: pointer;
+      }
+    }
+  }
+}

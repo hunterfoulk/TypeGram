@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.scss";
+import Navbar from "./components/navbar/navbar";
+import Main from "./components/main/main";
+import Register from "./components/register/register";
+import Login from "./components/login/login";
+import axios from "axios";
 
-function App() {
+export const App: React.FC = () => {
+  const [login, setLogin] = useState<boolean>(false);
+  const [register, setRegister] = useState<boolean>(false);
+  const [postModal, setPostModal] = useState<boolean>(false);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar
+        setPostModal={setPostModal}
+        setRegister={setRegister}
+        setLogin={setLogin}
+      />
+      {postModal && (
+        <div className="post-modal">
+          <div className="post-header">
+            <h1>Upload Picture</h1>
+          </div>
+        </div>
+      )}
+      {login && <Login setLogin={setLogin} />}
+      {register && <Register />}
+
+      <Main />
     </div>
   );
-}
+};
 
 export default App;
