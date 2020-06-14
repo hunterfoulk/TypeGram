@@ -3,5 +3,6 @@ type SetRegister = Dispatch<RegisterModal>;
 type SetPostModal = Dispatch<PostModal>;
 type SetBackDrop = Dispatch<Backdrop>;
 type SetDropDown = Dispatch<Dropdown>;
+type SetPosts = Dispatch<Posts>;
 type FormEvent = React.ChangeEvent<HTMLFormElement>;
 type ClickEvent = React.MouseEvent<HTMLButtonElement>;

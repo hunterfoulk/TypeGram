@@ -39,6 +39,7 @@ const BUCKET_NAME = "airbnbbucket";
 const IAM_USER_KEY = config.iamUser;
 const IAM_USER_SECRET = config.iamSecret;
 
+//signup s3 post
 function uploadToS3(file) {
   let s3bucket = new AWS.S3({
     accessKeyId: IAM_USER_KEY,
@@ -65,6 +66,80 @@ function uploadToS3(file) {
   });
 }
 
+//picture s3 post
+function postUploadToS3(file) {
+  let s3bucket = new AWS.S3({
+    accessKeyId: IAM_USER_KEY,
+    secretAccessKey: IAM_USER_SECRET,
+    Bucket: BUCKET_NAME,
+  });
+  s3bucket.createBucket(function () {
+    var params = {
+      Bucket: BUCKET_NAME,
+      Key: `instacloneposts/${file.name}`,
+      Body: file.data,
+      ACL: "public-read",
+      ContentType: file.mimetype,
+    };
+    console.log("this is the image metadeta", params);
+    s3bucket.upload(params, function (err, data) {
+      if (err) {
+        console.log("error in callback");
+        console.log(err);
+      }
+      console.log("success");
+      console.log(data);
+    });
+  });
+}
+
+router.route("/posts").get(async (req, res) => {
+  try {
+    const getPosts = await pool.query("SELECT * FROM posts");
+
+    res.json(getPosts.rows);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
+router.route("/posts").post(async (req, res) => {
+  try {
+    const { poster } = req.body;
+    const { caption } = req.body;
+    const { userId } = req.body;
+
+    var busboy = new Busboy({ headers: req.headers });
+    const file = req.files.img;
+
+    busboy.on("finish", function () {
+      console.log("Upload finished");
+
+      console.log(file);
+      postUploadToS3(file);
+    });
+    req.pipe(busboy);
+    let users = [];
+
+    const newPost = await pool.query(
+      "INSERT INTO posts (poster,caption,user_id,img,users) VALUES($1,$2,$3,$4,$5) RETURNING *",
+      [
+        poster,
+        caption,
+        parseInt(userId),
+        `https://airbnbbucket.s3.us-east-2.amazonaws.com/instacloneposts/${file.name}`,
+        JSON.stringify(users),
+      ]
+    );
+
+    res.status(200).send();
+    res.json(newPost.rows);
+    console.table("posted to database", newPost.rows);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
 router.route("/signup").post(async (req, res) => {
   try {
     const { username } = req.body;
@@ -86,7 +161,7 @@ router.route("/signup").post(async (req, res) => {
       [
         username,
         password,
-        `https://airbnbbucket.s3.us-east-2.amazonaws.com/airbnbfolder/${file.name}`,
+        `https://airbnbbucket.s3.us-east-2.amazonaws.com/instaclonefolder/${file.name}`,
       ]
     );
     res.status(200).json(newUsers.rows);
@@ -130,6 +205,41 @@ router.route("/login").post(async (req, res) => {
     }
   } catch (error) {
     console.error("server login error", error);
+  }
+});
+
+router.route("/updatelikes").get(async (req, res) => {
+  try {
+    const { postId } = req.query;
+    const { newLikes } = req.query;
+    const { user } = req.query;
+    console.log("post_id", postId);
+    console.log("new likes", newLikes);
+    console.log("new user", user);
+
+    // let parsedUsers = JSON.parse(newUsers);
+    // let usersArr = [];
+    // usersArr.push(parsedUsers);
+
+    const getUsers = await pool.query(
+      "SELECT users FROM posts WHERE post_id = $1",
+      [postId]
+    );
+    let users = JSON.stringify(getUsers.rows[0].users);
+    let parsedUsers = JSON.parse(users);
+    let parsedUser = JSON.parse(user);
+    parsedUsers.push(parsedUser);
+    console.log(users);
+
+    const updatePost = await pool.query(
+      "UPDATE posts SET likes = $1, users = $2 WHERE post_id = $3 RETURNING *",
+      [newLikes, JSON.stringify(parsedUsers), postId]
+    );
+
+    console.log(updatePost.rows[0]);
+    res.status(200).json(updatePost.rows[0]);
+  } catch (error) {
+    console.error(error.message);
   }
 });
 

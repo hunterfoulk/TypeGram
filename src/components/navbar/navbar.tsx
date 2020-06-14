@@ -18,14 +18,11 @@ interface Props {
 const Navbar: React.FC<Props> = ({
   setLogin,
   setRegister,
-  setPostModal,
-  setBackdrop,
   PostModalFunc,
   setDropdown,
   dropdown,
 }) => {
   const [modal, setModal] = useState(false);
-
   const [{ auth }, dispatch] = useStateValue();
 
   const handleLogout = () => {

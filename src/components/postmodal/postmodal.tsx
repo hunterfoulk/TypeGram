@@ -1,17 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiUpload } from "react-icons/fi";
+import { useStateValue } from "../../state";
+import axios from "axios";
 
 interface Props {}
 
 const PostModal: React.FC<Props> = ({}) => {
   const [caption, setCaption] = useState<string>("");
   const [img, setImg] = useState<any>(null);
+  const [likes, setLikes] = useState(0);
+  const [{ auth }, dispatch] = useStateValue();
+  useEffect(() => {
+    console.log(typeof auth.user.user_id);
+  }, []);
+
+  const newPost = async (e: FormEvent) => {
+    e.preventDefault();
+
+    let postData = new FormData();
+
+    let poster = auth.user;
+    let userId = auth.user.user_id;
+
+    postData.append("poster", JSON.stringify(poster));
+    postData.append("userId", userId);
+    postData.append("caption", caption);
+    postData.append("img", img);
+
+    let headers = {
+      "Content-Type": "multipart/form-data",
+    };
+
+    await axios
+      .post("http://localhost:5000/instagram/posts", postData, {
+        headers: headers,
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log("response", res);
+        console.log("post sent to database");
+      })
+      .catch((error) => {
+        console.error("error", error);
+      });
+
+    console.log("poster", poster);
+  };
+
   return (
     <div className="post-modal">
       <div className="post-header">
         <h1>Upload Picture</h1>
       </div>
-      <form>
+      <form onSubmit={(e: FormEvent) => newPost(e)}>
         <span>Picture</span>
         <input
           type="file"
@@ -20,6 +61,7 @@ const PostModal: React.FC<Props> = ({}) => {
             console.log(e.target.value);
           }}
         />
+
         <span>Caption</span>
         <textarea
           value={caption}
