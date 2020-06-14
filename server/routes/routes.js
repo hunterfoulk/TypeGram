@@ -120,15 +120,17 @@ router.route("/posts").post(async (req, res) => {
     });
     req.pipe(busboy);
     let users = [];
+    let comments = [];
 
     const newPost = await pool.query(
-      "INSERT INTO posts (poster,caption,user_id,img,users) VALUES($1,$2,$3,$4,$5) RETURNING *",
+      "INSERT INTO posts (poster,caption,user_id,img,users,comments) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",
       [
         poster,
         caption,
         parseInt(userId),
         `https://airbnbbucket.s3.us-east-2.amazonaws.com/instacloneposts/${file.name}`,
         JSON.stringify(users),
+        JSON.stringify(comments),
       ]
     );
 

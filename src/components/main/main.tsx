@@ -14,8 +14,10 @@ interface Props {
 
 const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
   const [{ auth }, dispatch] = useStateValue();
-  const [comment, setComment] = useState("");
-  const [comments, setComments] = useState<any[]>([]);
+  const [comment, setComment] = useState({
+    name: auth.user.username,
+    comment: "",
+  });
 
   const IncrementLikes = async (post: any, i: number) => {
     let postId = parseInt(post.post_id);
@@ -33,32 +35,33 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
 
     const queryParams = { params: { postId, newLikes, user } };
 
-    axios
+    await axios
       .get("http://localhost:5000/instagram/updatelikes", queryParams)
       .then((res) => {
         console.log("data", res.data);
-        GetPosts();
       })
       .catch((error) => console.error("post not updated succesfully", error));
+    GetPosts();
   };
 
   useEffect(() => {
     GetPosts();
   }, []);
 
-  const NewMessage = (e: FormEvent, i: any, comment: string) => {
+  const NewMessage = (e: FormEvent, post: any, comment: {}) => {
     e.preventDefault();
 
     let newPosts: any = [...posts];
-    let indexOfPost = newPosts.findIndex((i: any) => i.post_id === i.post_id);
+    let indexOfPost = newPosts.findIndex(
+      (i: any) => i.post_id === post.post_id
+    );
 
-    // newPosts[indexOfPost].comments;
+    newPosts[indexOfPost].comments.push(comment);
 
-    console.log("post", newPosts[indexOfPost]);
+    console.log("post", indexOfPost);
 
-    // setComments((cmnts) => [...cmnts, comment]);
     console.log(newPosts);
-    setComment("");
+    setComment({ name: auth.user.name, comment: "" });
   };
 
   return (
@@ -84,7 +87,7 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
                   />
                 </div>
                 <div className="likes-container">
-                  <span style={{ marginLeft: "3px" }}>{post.likes} likes</span>
+                  <span style={{ marginLeft: "5px" }}>{post.likes} likes</span>
                   {post.users.map((user: any) => (
                     <>
                       <Tooltip size="small" title={user.username}>
@@ -96,6 +99,7 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
                             height: "30px",
                             width: "30px",
                             borderRadius: "30px",
+                            marginLeft: "3px",
                           }}
                           src={user.img}
                         />
@@ -110,9 +114,21 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
                   <span>{post.caption}</span>
                 </div>
                 <div>
-                  {comments.map((comment) => (
+                  {post.comments.map((comment: any) => (
                     <p style={{ margin: "5px 0px", paddingLeft: "3px" }}>
-                      {comment}
+                      <div className="comment-container">
+                        <p
+                          style={{
+                            fontWeight: "bold",
+                            margin: "0px 4px 0px 0px",
+                          }}
+                        >
+                          {comment.name}
+                        </p>
+                        <p style={{ margin: "0px 0px 0px 0px" }}>
+                          {comment.comment}
+                        </p>
+                      </div>
                     </p>
                   ))}
                 </div>
@@ -120,10 +136,11 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
               <div className="messages-container">
                 <form onSubmit={(e: FormEvent) => NewMessage(e, post, comment)}>
                   <input
-                    value={comment}
+                    value={comment.comment}
                     onChange={(e) => {
-                      setComment(e.target.value);
+                      setComment({ ...comment, comment: e.target.value });
                       console.log(e.target.value);
+                      console.log("comment name", comment.name);
                     }}
                     type="text"
                     placeholder="Add a comment..."

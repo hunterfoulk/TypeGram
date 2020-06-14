@@ -5,6 +5,10 @@
   // height: 100%;
   background-color: rgb(247, 247, 247);
   margin-bottom: 20px;
+  .comment-container {
+    display: flex;
+    margin-top: 15px;
+  }
   .post-container {
     display: flex;
     flex-direction: column;
