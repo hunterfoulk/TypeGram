@@ -20,6 +20,8 @@ if (user) {
   initialState.auth.token = JSON.stringify(token);
 }
 
+console.log("this is index", initialState.auth.user);
+
 const reducer = (state: any, action: any) => {
   switch (action.type) {
     case "login":

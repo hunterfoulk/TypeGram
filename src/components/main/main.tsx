@@ -12,12 +12,21 @@ interface Props {
   GetPosts: () => void;
 }
 
+interface Comment {
+  name: string;
+  comment: string;
+}
+
 const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
   const [{ auth }, dispatch] = useStateValue();
-  const [comment, setComment] = useState({
+  const [comment, setComment] = useState<Comment>({
     name: auth.user.username,
     comment: "",
   });
+
+  useEffect(() => {
+    console.log("auth", auth.user.username);
+  }, []);
 
   const IncrementLikes = async (post: any, i: number) => {
     let postId = parseInt(post.post_id);
@@ -44,12 +53,9 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
     GetPosts();
   };
 
-  useEffect(() => {
-    GetPosts();
-  }, []);
-
-  const NewMessage = (e: FormEvent, post: any, comment: {}) => {
+  const NewComment = async (e: FormEvent, post: any, comment: {}) => {
     e.preventDefault();
+    let post_id = parseInt(post.post_id);
 
     let newPosts: any = [...posts];
     let indexOfPost = newPosts.findIndex(
@@ -57,10 +63,23 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
     );
 
     newPosts[indexOfPost].comments.push(comment);
+    let newComment = post.comments;
 
     console.log("post", indexOfPost);
+    console.log("post comment", post.comments);
+
+    const queryParams = { params: { post_id, newComment } };
+
+    await axios
+      .get("http://localhost:5000/instagram/updatecomments", queryParams)
+      .then((res) => {
+        console.log("data", res.data);
+      })
+      .catch((error) => console.error("post not updated succesfully", error));
+    GetPosts();
 
     console.log(newPosts);
+
     setComment({ name: auth.user.name, comment: "" });
   };
 
@@ -95,7 +114,7 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
                           className="users-image"
                           style={{
                             position: "relative",
-                            top: "2px",
+                            top: "3px",
                             height: "30px",
                             width: "30px",
                             borderRadius: "30px",
@@ -134,7 +153,7 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
                 </div>
               </div>
               <div className="messages-container">
-                <form onSubmit={(e: FormEvent) => NewMessage(e, post, comment)}>
+                <form onSubmit={(e: FormEvent) => NewComment(e, post, comment)}>
                   <input
                     value={comment.comment}
                     onChange={(e) => {

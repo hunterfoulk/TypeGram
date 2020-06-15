@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useStateValue } from "../../state";
+import { Link, useHistory } from "react-router-dom";
 
 interface Props {
   setLogin: SetLogin;
@@ -9,8 +10,8 @@ interface Props {
 const Login: React.FC<Props> = ({ setLogin }) => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [{ auth }, dispatch] = useStateValue();
+  const history = useHistory();
 
   const HandleLogin = async (e: FormEvent) => {
     e.preventDefault();
@@ -29,7 +30,6 @@ const Login: React.FC<Props> = ({ setLogin }) => {
         console.log("response", res);
         console.log("user", user);
 
-        setLoggedIn(true);
         dispatch({
           type: "login",
           auth: {
@@ -43,6 +43,7 @@ const Login: React.FC<Props> = ({ setLogin }) => {
         console.error("error", error);
       });
     setLogin(false);
+    history.push("/feed");
   };
 
   return (
@@ -69,6 +70,17 @@ const Login: React.FC<Props> = ({ setLogin }) => {
         />
         <button type="submit">Login</button>
       </form>
+      <span
+        onClick={() => history.push("/register")}
+        style={{
+          textAlign: "center",
+          color: "#405de6",
+          marginTop: "10px",
+          cursor: "pointer",
+        }}
+      >
+        Dont have an account? Signup
+      </span>
     </div>
   );
 };

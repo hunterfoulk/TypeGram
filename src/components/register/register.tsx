@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import axios from "axios";
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [img, setImg] = useState<any>(null);
+  const history = useHistory();
 
   const HandleRegister = async (e: FormEvent) => {
     e.preventDefault();
@@ -34,6 +36,7 @@ const Register: React.FC = () => {
 
     setUsername("");
     setPassword("");
+    history.push("/");
   };
 
   return (

@@ -219,10 +219,6 @@ router.route("/updatelikes").get(async (req, res) => {
     console.log("new likes", newLikes);
     console.log("new user", user);
 
-    // let parsedUsers = JSON.parse(newUsers);
-    // let usersArr = [];
-    // usersArr.push(parsedUsers);
-
     const getUsers = await pool.query(
       "SELECT users FROM posts WHERE post_id = $1",
       [postId]
@@ -240,6 +236,34 @@ router.route("/updatelikes").get(async (req, res) => {
 
     console.log(updatePost.rows[0]);
     res.status(200).json(updatePost.rows[0]);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
+router.route("/updatecomments").get(async (req, res) => {
+  try {
+    const { post_id } = req.query;
+    const { newComment } = req.query;
+    console.log("post id", post_id);
+    console.log("post comment", newComment);
+
+    const getComments = await pool.query(
+      "SELECT comments FROM posts WHERE post_id = $1",
+      [post_id]
+    );
+    let comments = JSON.stringify(getComments.rows[0].comments);
+    let parsedComments = JSON.parse(comments);
+    let parsedComment = JSON.parse(newComment);
+    parsedComments.push(parsedComment);
+    console.log(comments);
+
+    const updateComments = await pool.query(
+      "UPDATE posts SET comments = $1 WHERE post_id = $2 RETURNING *",
+      [JSON.stringify(parsedComments), post_id]
+    );
+    console.log(updateComments.rows[0]);
+    res.status(200).json(updateComments.rows[0]);
   } catch (error) {
     console.error(error.message);
   }

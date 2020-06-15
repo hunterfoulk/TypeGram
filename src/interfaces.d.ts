@@ -45,7 +45,17 @@ interface GetPosts {
 //   img: string;
 // }
 
-// interface Comments {
-//   name: string;
-//   comment: string;
-// }
+interface Comment {
+  name: string;
+  comment: string;
+}
+
+type SetLogin = Dispatch<LoginModal>;
+type SetRegister = Dispatch<RegisterModal>;
+type SetPostModal = Dispatch<PostModal>;
+type SetBackDrop = Dispatch<Backdrop>;
+type SetDropDown = Dispatch<Dropdown>;
+type SetPosts = Dispatch<Posts>;
+type SetComment = React.Dispatch<Comment>;
+type FormEvent = React.ChangeEvent<HTMLFormElement>;
+type ClickEvent = React.MouseEvent<HTMLButtonElement>;

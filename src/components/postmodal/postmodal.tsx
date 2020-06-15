@@ -2,10 +2,15 @@ import React, { useState, useEffect } from "react";
 import { FiUpload } from "react-icons/fi";
 import { useStateValue } from "../../state";
 import axios from "axios";
+import useLockBodyScroll from "../bodyScroll";
 
-interface Props {}
+interface Props {
+  GetPosts: () => void;
+  PostModalFuncClose: () => void;
+}
 
-const PostModal: React.FC<Props> = ({}) => {
+const PostModal: React.FC<Props> = ({ GetPosts, PostModalFuncClose }) => {
+  useLockBodyScroll();
   const [caption, setCaption] = useState<string>("");
   const [img, setImg] = useState<any>(null);
   const [likes, setLikes] = useState(0);
@@ -43,7 +48,8 @@ const PostModal: React.FC<Props> = ({}) => {
       .catch((error) => {
         console.error("error", error);
       });
-
+    GetPosts();
+    PostModalFuncClose();
     console.log("poster", poster);
   };
 

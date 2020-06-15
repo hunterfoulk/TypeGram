@@ -4,6 +4,7 @@ import { BsPeopleCircle } from "react-icons/bs";
 import { useStateValue } from "../../state";
 import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
+import { Link, useHistory } from "react-router-dom";
 
 interface Props {
   setLogin: SetLogin;
@@ -24,16 +25,17 @@ const Navbar: React.FC<Props> = ({
 }) => {
   const [modal, setModal] = useState(false);
   const [{ auth }, dispatch] = useStateValue();
+  const history = useHistory();
 
   const handleLogout = () => {
     localStorage.clear();
 
-    setTimeout(() => {
-      dispatch({
-        type: "logout",
-      });
-    }, 400);
+    dispatch({
+      type: "logout",
+    });
+
     setDropdown(false);
+    history.push("/");
   };
 
   return (

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import "./App.scss";
 import Navbar from "./components/navbar/navbar";
 import Main from "./components/main/main";
@@ -7,10 +8,11 @@ import Login from "./components/login/login";
 import axios from "axios";
 import PostModal from "./components/postmodal/postmodal";
 import Backdrop from "./components/backdrop/backdrop";
+import { useStateValue } from "../src/state";
 
-// interface Props {
-//   posts: Posts[];
-// }
+interface Props {
+  comment: Comment;
+}
 
 export const App: React.FC = () => {
   const [login, setLogin] = useState<boolean>(false);
@@ -19,6 +21,7 @@ export const App: React.FC = () => {
   const [backdrop, setBackdrop] = useState<boolean>(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
   const [posts, setPosts] = useState<[]>([]);
+  const [{ auth }, dispatch] = useStateValue();
 
   const PostModalFunc = (): void => {
     setBackdrop(true);
@@ -47,23 +50,61 @@ export const App: React.FC = () => {
     GetPosts();
   }, []);
 
+  useEffect(() => {}, [auth]);
+
   return (
     <div className="App">
-      <Navbar
-        setPostModal={setPostModal}
-        setBackdrop={setBackdrop}
-        PostModalFunc={PostModalFunc}
-        setRegister={setRegister}
-        setLogin={setLogin}
-        setDropdown={setDropdown}
-        dropdown={dropdown}
-      />
-      {backdrop && <Backdrop PostModalFuncClose={PostModalFuncClose} />}
-      {postModal && <PostModal />}
-      {login && <Login setLogin={setLogin} />}
-      {register && <Register />}
+      <Router>
+        {backdrop && <Backdrop PostModalFuncClose={PostModalFuncClose} />}
+        {postModal && (
+          <PostModal
+            GetPosts={GetPosts}
+            PostModalFuncClose={PostModalFuncClose}
+          />
+        )}
+        {/* {login && <Login setLogin={setLogin} />} */}
 
-      <Main setPosts={setPosts} GetPosts={GetPosts} posts={posts} />
+        <Route
+          exact
+          path="/feed"
+          render={() => (
+            <>
+              <Navbar
+                setPostModal={setPostModal}
+                setBackdrop={setBackdrop}
+                PostModalFunc={PostModalFunc}
+                setRegister={setRegister}
+                setLogin={setLogin}
+                setDropdown={setDropdown}
+                dropdown={dropdown}
+              />
+              <Main setPosts={setPosts} GetPosts={GetPosts} posts={posts} />
+            </>
+          )}
+        ></Route>
+
+        {/* LOGIN ROUTE */}
+        <Route
+          exact
+          path="/"
+          render={() => (
+            <>
+              <Login setLogin={setLogin} />
+            </>
+          )}
+        ></Route>
+
+        {/* SIGNUP ROUTE */}
+        <Route
+          exact
+          path="/register"
+          render={() => (
+            <>
+              <Register />
+            </>
+          )}
+        ></Route>
+      </Router>
     </div>
   );
 };
