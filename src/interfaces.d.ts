@@ -34,16 +34,20 @@ interface GetPosts {
   GetPosts: () => void;
 }
 
-// interface Posts {
-//   post_id: number;
-//   user_id: number;
-//   caption: string;
-//   likes: number;
-//   comments: Comments[];
-//   users: [];
-//   poster: {};
-//   img: string;
-// }
+interface Post {
+  post_id: number;
+  user_id: number;
+  caption?: string;
+  likes: number;
+  comments?: Comment[];
+  users?: [];
+  poster: {};
+  img: string;
+}
+
+interface Posts {
+  posts: Post[];
+}
 
 interface Comment {
   name: string;
@@ -55,7 +59,7 @@ type SetRegister = Dispatch<RegisterModal>;
 type SetPostModal = Dispatch<PostModal>;
 type SetBackDrop = Dispatch<Backdrop>;
 type SetDropDown = Dispatch<Dropdown>;
-type SetPosts = Dispatch<Posts>;
+type SetPosts = Dispatch<Posts[]>;
 type SetComment = React.Dispatch<Comment>;
 type FormEvent = React.ChangeEvent<HTMLFormElement>;
 type ClickEvent = React.MouseEvent<HTMLButtonElement>;

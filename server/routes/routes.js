@@ -230,7 +230,7 @@ router.route("/updatelikes").get(async (req, res) => {
     console.log(users);
 
     const updatePost = await pool.query(
-      "UPDATE posts SET likes = $1, users = $2 WHERE post_id = $3 RETURNING *",
+      "UPDATE posts SET likes = $1, users = $2 WHERE post_id = $3",
       [newLikes, JSON.stringify(parsedUsers), postId]
     );
 
@@ -244,9 +244,9 @@ router.route("/updatelikes").get(async (req, res) => {
 router.route("/updatecomments").get(async (req, res) => {
   try {
     const { post_id } = req.query;
-    const { newComment } = req.query;
+    const { comment } = req.query;
     console.log("post id", post_id);
-    console.log("post comment", newComment);
+    console.log("post comment", comment);
 
     const getComments = await pool.query(
       "SELECT comments FROM posts WHERE post_id = $1",
@@ -254,12 +254,13 @@ router.route("/updatecomments").get(async (req, res) => {
     );
     let comments = JSON.stringify(getComments.rows[0].comments);
     let parsedComments = JSON.parse(comments);
-    let parsedComment = JSON.parse(newComment);
+    let parsedComment = JSON.parse(comment);
     parsedComments.push(parsedComment);
     console.log(comments);
+    console.log(parsedComments);
 
     const updateComments = await pool.query(
-      "UPDATE posts SET comments = $1 WHERE post_id = $2 RETURNING *",
+      "UPDATE posts SET comments = $1 WHERE post_id = $2",
       [JSON.stringify(parsedComments), post_id]
     );
     console.log(updateComments.rows[0]);

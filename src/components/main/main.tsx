@@ -7,7 +7,7 @@ import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
 
 interface Props {
-  posts: [];
+  posts: Post[];
   setPosts: SetPosts;
   GetPosts: () => void;
 }
@@ -44,31 +44,22 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
 
     const queryParams = { params: { postId, newLikes, user } };
 
+    console.log("likes", newLikes);
+
     await axios
       .get("http://localhost:5000/instagram/updatelikes", queryParams)
       .then((res) => {
         console.log("data", res.data);
+        GetPosts();
       })
       .catch((error) => console.error("post not updated succesfully", error));
-    GetPosts();
   };
 
   const NewComment = async (e: FormEvent, post: any, comment: {}) => {
     e.preventDefault();
     let post_id = parseInt(post.post_id);
 
-    let newPosts: any = [...posts];
-    let indexOfPost = newPosts.findIndex(
-      (i: any) => i.post_id === post.post_id
-    );
-
-    newPosts[indexOfPost].comments.push(comment);
-    let newComment = post.comments;
-
-    console.log("post", indexOfPost);
-    console.log("post comment", post.comments);
-
-    const queryParams = { params: { post_id, newComment } };
+    const queryParams = { params: { post_id, comment } };
 
     await axios
       .get("http://localhost:5000/instagram/updatecomments", queryParams)
@@ -78,9 +69,7 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
       .catch((error) => console.error("post not updated succesfully", error));
     GetPosts();
 
-    console.log(newPosts);
-
-    setComment({ name: auth.user.name, comment: "" });
+    setComment({ name: auth.user.username, comment: "" });
   };
 
   return (
@@ -134,21 +123,22 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
                 </div>
                 <div>
                   {post.comments.map((comment: any) => (
-                    <p style={{ margin: "5px 0px", paddingLeft: "3px" }}>
-                      <div className="comment-container">
-                        <p
-                          style={{
-                            fontWeight: "bold",
-                            margin: "0px 4px 0px 0px",
-                          }}
-                        >
-                          {comment.name}
-                        </p>
-                        <p style={{ margin: "0px 0px 0px 0px" }}>
-                          {comment.comment}
-                        </p>
-                      </div>
-                    </p>
+                    <div
+                      style={{ paddingLeft: "2px" }}
+                      className="comment-container"
+                    >
+                      <span
+                        style={{
+                          fontWeight: "bold",
+                          margin: "0px 4px 0px 0px",
+                        }}
+                      >
+                        {comment.name}
+                      </span>
+                      <span style={{ margin: "0px 0px 0px 0px" }}>
+                        {comment.comment}
+                      </span>
+                    </div>
                   ))}
                 </div>
               </div>

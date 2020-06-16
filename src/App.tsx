@@ -10,17 +10,13 @@ import PostModal from "./components/postmodal/postmodal";
 import Backdrop from "./components/backdrop/backdrop";
 import { useStateValue } from "../src/state";
 
-interface Props {
-  comment: Comment;
-}
-
 export const App: React.FC = () => {
   const [login, setLogin] = useState<boolean>(false);
   const [register, setRegister] = useState<boolean>(false);
   const [postModal, setPostModal] = useState<boolean>(false);
   const [backdrop, setBackdrop] = useState<boolean>(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
-  const [posts, setPosts] = useState<[]>([]);
+  const [posts, setPosts] = useState<Post[]>([]);
   const [{ auth }, dispatch] = useStateValue();
 
   const PostModalFunc = (): void => {
@@ -62,7 +58,6 @@ export const App: React.FC = () => {
             PostModalFuncClose={PostModalFuncClose}
           />
         )}
-        {/* {login && <Login setLogin={setLogin} />} */}
 
         <Route
           exact
