@@ -3,6 +3,63 @@
   background-color: rgb(247, 247, 247);
   height: 100vh;
   justify-content: center;
+  .pic-modal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    padding-top: 25px;
+    padding-bottom: 20px;
+    background-color: white;
+    z-index: 600;
+    width: 400px;
+    // height: 100px;
+    border-radius: 20px;
+    left: 50%;
+    top: 15%;
+    transform: translate(-50%) !important;
+    .pic-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 20px;
+      width: 100%;
+      font-size: 25px;
+      // background-color: red;
+      border-bottom: 1px solid rgb(216, 216, 216);
+    }
+    .pic-upload {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 0px;
+      // background-color: red;
+      border-bottom: 1px solid rgb(216, 216, 216);
+      button {
+        background-color: transparent;
+        color: #0095f6;
+        border: none;
+        font-size: 18px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        cursor: pointer;
+        font-weight: 500;
+      }
+    }
+    .cancel-upload {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      padding-top: 15px;
+      font-size: 18px;
+      color: #ed4956;
+      cursor: pointer;
+      font-weight: 500;
+    }
+  }
   .edit-container {
     height: 480px;
     width: 550px;

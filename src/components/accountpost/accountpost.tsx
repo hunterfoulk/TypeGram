@@ -1,21 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./accountpost.scss";
 import useLockBodyScroll from "../bodyScroll";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsChat } from "react-icons/bs";
+import { useStateValue } from "../../state";
+import axios from "axios";
 
 interface Props {
   content: any;
-  setModal: SetAccountModal;
+  GetPosts: () => void;
+  GetAccountPosts: () => void;
+  accountPosts: [];
+  posts: Post[];
+  setContent: SetContent;
 }
 
-const AccountPost: React.FC<Props> = ({ content, setModal }) => {
+interface Comment {
+  name: string;
+  comment: string;
+  img: string;
+}
+
+const AccountPost: React.FC<Props> = ({
+  content,
+  GetAccountPosts,
+  GetPosts,
+  accountPosts,
+  posts,
+  setContent,
+}) => {
+  const [{ auth }, dispatch] = useStateValue();
+  const [comment, setComment] = useState<Comment>({
+    name: auth.user.username,
+    img: auth.user.img,
+    comment: "",
+  });
   useLockBodyScroll();
 
-  const HandleComment = (e: any, content: any) => {
+  const HandleComment = async (e: FormEvent, content: any, comment: {}) => {
     e.preventDefault();
+
+    let post_id = parseInt(content.post_id);
+
+    const queryParams = { params: { post_id, comment } };
+
+    await axios
+      .get("http://localhost:5000/instagram/updatecomments", queryParams)
+      .then((res) => {
+        console.log("account post data", res.data);
+      })
+      .catch((error) => console.error("post not updated succesfully", error));
+
+    GetAccountPosts();
+    setComment({ name: auth.user.username, img: auth.user.img, comment: "" });
     console.log("post", content);
   };
+
+  useEffect(() => {
+    console.log("fireddd");
+  }, [accountPosts]);
 
   return (
     <>
@@ -77,8 +120,16 @@ const AccountPost: React.FC<Props> = ({ content, setModal }) => {
               Like by <b>{content.likes}</b> people
             </span>
           </div>
-          <form onSubmit={(e: any) => HandleComment(e, content)}>
-            <input placeholder="Add a comment..." />
+          <form onSubmit={(e: FormEvent) => HandleComment(e, content, comment)}>
+            <input
+              value={comment.comment}
+              onChange={(e) => {
+                setComment({ ...comment, comment: e.target.value });
+                console.log(e.target.value);
+                console.log("comment name", comment.name);
+              }}
+              placeholder="Add a comment..."
+            />
             <button type="submit">Post</button>
           </form>
         </div>

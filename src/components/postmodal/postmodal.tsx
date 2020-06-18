@@ -7,9 +7,14 @@ import useLockBodyScroll from "../bodyScroll";
 interface Props {
   GetPosts: () => void;
   PostModalFuncClose: () => void;
+  GetAccountPosts: () => void;
 }
 
-const PostModal: React.FC<Props> = ({ GetPosts, PostModalFuncClose }) => {
+const PostModal: React.FC<Props> = ({
+  GetPosts,
+  PostModalFuncClose,
+  GetAccountPosts,
+}) => {
   useLockBodyScroll();
   const [caption, setCaption] = useState<string>("");
   const [img, setImg] = useState<any>(null);
@@ -48,7 +53,8 @@ const PostModal: React.FC<Props> = ({ GetPosts, PostModalFuncClose }) => {
       .catch((error) => {
         console.error("error", error);
       });
-    GetPosts();
+
+    GetAccountPosts();
     PostModalFuncClose();
     console.log("poster", poster);
   };

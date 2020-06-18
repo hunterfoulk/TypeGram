@@ -12,6 +12,8 @@ interface Props {
   setBackdrop: SetBackDrop;
   setModal: SetAccountModal;
   accountModal: boolean;
+  GetPosts: () => void;
+  posts: Post[];
 }
 
 const AccountFeed: React.FC<Props> = ({
@@ -20,28 +22,33 @@ const AccountFeed: React.FC<Props> = ({
   setModal,
   accountModal,
   GetAccountPosts,
+  GetPosts,
+  posts,
 }) => {
   const [{ auth }, dispatch] = useStateValue();
   const [hovering, setHovering] = useState<boolean>(false);
-  const [content, setContent] = useState<[]>([]);
+  const [content, setContent] = useState({});
   const history = useHistory();
 
   let postNum = accountPosts.length;
 
-  const hover = (e: any, post: any) => {
-    e.preventDefault();
-    setHovering(true);
-    console.log(post);
-  };
-
-  console.log("account posts", accountPosts);
-  console.log(auth.user.user_id);
   useEffect(() => {
     GetAccountPosts();
+    console.log("new accountposts fired");
   }, []);
+
   return (
     <div className="profile-main">
-      {accountModal && <AccountPost content={content} setModal={setModal} />}
+      {accountModal && (
+        <AccountPost
+          accountPosts={accountPosts}
+          GetPosts={GetPosts}
+          GetAccountPosts={GetAccountPosts}
+          content={content}
+          posts={posts}
+          setContent={setContent}
+        />
+      )}
       <div className="header">
         <div className="header-left">
           <img src={auth.user.img} />

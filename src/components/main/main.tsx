@@ -51,7 +51,8 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
     await axios
       .get("http://localhost:5000/instagram/updatelikes", queryParams)
       .then((res) => {
-        console.log("data", res.data);
+        console.log("main data", res.data);
+
         GetPosts();
       })
       .catch((error) => console.error("post not updated succesfully", error));

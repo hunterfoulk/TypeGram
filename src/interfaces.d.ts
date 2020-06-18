@@ -18,6 +18,10 @@ interface Dropdown {
   dropdown: boolean;
 }
 
+interface PicModal {
+  picmodal: boolean;
+}
+
 interface Posts {
   posts: [];
 }
@@ -66,6 +70,10 @@ interface AccountModal {
   modal: boolean;
 }
 
+interface Content {
+  content: any;
+}
+
 type SetLogin = Dispatch<LoginModal>;
 
 type SetRegister = Dispatch<RegisterModal>;
@@ -87,3 +95,7 @@ type FormEvent = React.ChangeEvent<HTMLFormElement>;
 type ClickEvent = React.MouseEvent<HTMLButtonElement>;
 
 type SetAccountModal = Dispatch<AccountModal>;
+
+type SetContent = Dispatch<Content>;
+
+type SetPicModal = Dispatch<PicModal>;

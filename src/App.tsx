@@ -18,6 +18,7 @@ export const App: React.FC = () => {
   const [postModal, setPostModal] = useState<boolean>(false);
   const [backdrop, setBackdrop] = useState<boolean>(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
+  const [picmodal, setPicModal] = useState<boolean>(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [{ auth }, dispatch] = useStateValue();
   const [accountPosts, setAccountPosts] = useState<[]>([]);
@@ -33,6 +34,7 @@ export const App: React.FC = () => {
     setBackdrop(false);
     setPostModal(false);
     setModal(false);
+    setPicModal(false);
   };
 
   const GetPosts = async () => {
@@ -59,7 +61,7 @@ export const App: React.FC = () => {
     await axios
       .get("http://localhost:5000/instagram/accountfeed", queryParams)
       .then((res) => {
-        console.log("data", res.data);
+        console.log("app data", res.data);
         setAccountPosts(res.data);
       })
       .catch((error) => console.error("post not updated succesfully", error));
@@ -80,6 +82,7 @@ export const App: React.FC = () => {
           <PostModal
             GetPosts={GetPosts}
             PostModalFuncClose={PostModalFuncClose}
+            GetAccountPosts={GetAccountPosts}
           />
         )}
 
@@ -146,6 +149,8 @@ export const App: React.FC = () => {
                 setBackdrop={setBackdrop}
                 setModal={setModal}
                 accountModal={accountModal}
+                GetPosts={GetPosts}
+                posts={posts}
               />
             </>
           )}
@@ -166,7 +171,12 @@ export const App: React.FC = () => {
                 setDropdown={setDropdown}
                 dropdown={dropdown}
               />
-              <EditProfile />
+              <EditProfile
+                setBackdrop={setBackdrop}
+                setPicModal={setPicModal}
+                picmodal={picmodal}
+                PostModalFuncClose={PostModalFuncClose}
+              />
             </>
           )}
         ></Route>

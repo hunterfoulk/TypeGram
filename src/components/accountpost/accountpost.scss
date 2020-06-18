@@ -47,13 +47,14 @@
     .post-caption {
       display: flex;
       width: 100%;
-      padding: 10px;
+      // padding: 10px;
+      margin-top: 5px;
       // background-color: red;
-      margin: 5px;
       img {
         height: 30px;
         width: 30px;
         border-radius: 50%;
+        margin-left: 5px;
       }
     }
     .post-comments {
@@ -100,8 +101,8 @@
       display: flex;
       justify-content: space-between;
       // background-color: red;
-      margin-top: 20px;
-      margin-right: 5px;
+      margin-top: 25px;
+      // margin-right: 5px;
       input {
         font-size: 17px;
         border: none;
