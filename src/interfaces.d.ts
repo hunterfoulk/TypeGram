@@ -34,6 +34,10 @@ interface GetPosts {
   GetPosts: () => void;
 }
 
+interface GetAccountPosts {
+  GetAccountPosts: () => void;
+}
+
 interface Post {
   post_id: number;
   user_id: number;
@@ -49,17 +53,37 @@ interface Posts {
   posts: Post[];
 }
 
+interface AccountPosts {
+  accountPosts: [];
+}
+
 interface Comment {
   name: string;
   comment: string;
 }
 
+interface AccountModal {
+  modal: boolean;
+}
+
 type SetLogin = Dispatch<LoginModal>;
+
 type SetRegister = Dispatch<RegisterModal>;
+
 type SetPostModal = Dispatch<PostModal>;
+
 type SetBackDrop = Dispatch<Backdrop>;
+
 type SetDropDown = Dispatch<Dropdown>;
+
 type SetPosts = Dispatch<Posts[]>;
+
+type SetAccountPosts = Dispatch<AccountPosts>;
+
 type SetComment = React.Dispatch<Comment>;
+
 type FormEvent = React.ChangeEvent<HTMLFormElement>;
+
 type ClickEvent = React.MouseEvent<HTMLButtonElement>;
+
+type SetAccountModal = Dispatch<AccountModal>;

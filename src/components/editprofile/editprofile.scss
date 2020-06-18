@@ -1,0 +1,72 @@
+.edit-main {
+  display: flex;
+  background-color: rgb(247, 247, 247);
+  height: 100vh;
+  justify-content: center;
+  .edit-container {
+    height: 480px;
+    width: 550px;
+    background-color: white;
+    border: 1px solid rgb(194, 194, 194);
+    margin-top: 150px;
+    border-radius: 3px;
+    .edit-header {
+      display: flex;
+      //   background-color: red;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      span {
+        font-size: 30px;
+      }
+      img {
+        height: 60px;
+        width: 60px;
+        border-radius: 50%;
+        margin-right: 20px;
+      }
+      .text-container {
+        display: flex;
+        // background-color: red;
+        flex-direction: column;
+        text-align: left;
+      }
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 30px;
+      //   background-color: rgb(141, 184, 141);
+      input {
+        outline: none;
+        width: 300px;
+        height: 20px;
+        margin-bottom: 30px;
+        font-size: 16px;
+        border: 1px solid rgb(175, 175, 175);
+      }
+      textarea {
+        min-height: 80px;
+        min-width: 300px;
+        outline: none;
+        font-size: 16px;
+        border: 1px solid rgb(175, 175, 175);
+      }
+      button {
+        color: white;
+        background-color: #0095f6;
+        border: 1px solid #0095f6;
+        font-size: 15px;
+        padding: 5px 8px;
+        border-radius: 3px;
+        cursor: pointer;
+        display: block;
+        font-weight: 600;
+        position: relative;
+        top: 40px;
+      }
+    }
+  }
+}

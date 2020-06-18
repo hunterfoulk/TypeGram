@@ -1,0 +1,124 @@
+.account-modal {
+  display: flex;
+  position: absolute;
+  //   padding: 10px;
+  background-color: white;
+  z-index: 300;
+  width: 800px;
+  height: 700px;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%) !important;
+  .modal-left {
+    display: flex;
+    width: 65%;
+    // background-color: rgb(201, 122, 122);
+    img {
+      width: 100%;
+    }
+  }
+  .modal-right {
+    display: flex;
+    flex-direction: column;
+    // padding: 10px;
+    align-items: center;
+    width: 35%;
+    // background-color: rgb(122, 165, 201);
+    .account-modal-header {
+      display: flex;
+      width: 100%;
+      //   background-color: red;
+      height: 50px;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid rgb(224, 224, 224);
+      img {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+      }
+      span {
+        font-size: 19px;
+        margin-left: 10px;
+        position: relative;
+        bottom: 3px;
+      }
+    }
+    .post-caption {
+      display: flex;
+      width: 100%;
+      padding: 10px;
+      // background-color: red;
+      margin: 5px;
+      img {
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+      }
+    }
+    .post-comments {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      //   background-color: rgb(177, 96, 96);
+      height: 400px;
+      max-height: 400px;
+      margin-top: 30px;
+      .post-comment {
+        display: flex;
+        align-items: center;
+        // background-color: rgb(109, 175, 109);
+        margin-top: 5px;
+        margin-bottom: 10px;
+        margin-left: 5px;
+        img {
+          height: 30px;
+          width: 30px;
+          border-radius: 50%;
+          margin-right: 5px;
+        }
+      }
+    }
+    .post-footer {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-top: 5px;
+      border-top: 1px solid rgb(224, 224, 224);
+      border-bottom: 1px solid rgb(224, 224, 224);
+      // background-color: red;
+      height: 80px;
+      .post-footer-icons {
+        display: flex;
+        height: 25px;
+        margin-left: 5px;
+        margin-top: 5px;
+        // background-color: green;
+      }
+    }
+    form {
+      display: flex;
+      justify-content: space-between;
+      // background-color: red;
+      margin-top: 20px;
+      margin-right: 5px;
+      input {
+        font-size: 17px;
+        border: none;
+        outline: none;
+      }
+      button {
+        position: relative;
+        bottom: 2px;
+        margin-right: 8px;
+        font-size: 16px;
+        color: rgb(80, 165, 214);
+        cursor: pointer;
+        font-weight: bold;
+        border: none;
+        background-color: white;
+        outline: none;
+      }
+    }
+  }
+}

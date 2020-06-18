@@ -38,15 +38,29 @@ const Navbar: React.FC<Props> = ({
     history.push("/");
   };
 
+  const profile = () => {
+    history.push("/profile");
+    setDropdown(false);
+  };
+
   return (
     <>
       {auth.isAuthenticated ? (
         <div className="navbar">
           <div className="left">
-            <span>LOGO</span>
+            <span
+              style={{ cursor: "pointer" }}
+              onClick={() => history.push("/feed")}
+            >
+              TypeGram
+            </span>
           </div>
           <div className="middle">
-            <input type="search" />
+            <input
+              style={{ paddingLeft: "10px" }}
+              placeholder="Search..."
+              type="search"
+            />
           </div>
           <div className="right">
             <Tooltip
@@ -59,6 +73,9 @@ const Navbar: React.FC<Props> = ({
             </Tooltip>
             {dropdown && (
               <div className="dropdown">
+                <span onClick={() => profile()} className="upload">
+                  Profile
+                </span>
                 <span onClick={() => PostModalFunc()} className="upload">
                   Upload
                 </span>

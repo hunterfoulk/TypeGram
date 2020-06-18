@@ -9,6 +9,8 @@ import axios from "axios";
 import PostModal from "./components/postmodal/postmodal";
 import Backdrop from "./components/backdrop/backdrop";
 import { useStateValue } from "../src/state";
+import AccountFeed from "./components/accountfeed/acccountfeed";
+import EditProfile from "./components/editprofile/editprofile";
 
 export const App: React.FC = () => {
   const [login, setLogin] = useState<boolean>(false);
@@ -18,6 +20,8 @@ export const App: React.FC = () => {
   const [dropdown, setDropdown] = useState<boolean>(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [{ auth }, dispatch] = useStateValue();
+  const [accountPosts, setAccountPosts] = useState<[]>([]);
+  const [accountModal, setModal] = useState(false);
 
   const PostModalFunc = (): void => {
     setBackdrop(true);
@@ -28,6 +32,7 @@ export const App: React.FC = () => {
   const PostModalFuncClose = (): void => {
     setBackdrop(false);
     setPostModal(false);
+    setModal(false);
   };
 
   const GetPosts = async () => {
@@ -45,6 +50,25 @@ export const App: React.FC = () => {
   useEffect(() => {
     GetPosts();
   }, []);
+
+  const GetAccountPosts = async () => {
+    let user_id = auth.user.user_id;
+
+    const queryParams = { params: { user_id } };
+
+    await axios
+      .get("http://localhost:5000/instagram/accountfeed", queryParams)
+      .then((res) => {
+        console.log("data", res.data);
+        setAccountPosts(res.data);
+      })
+      .catch((error) => console.error("post not updated succesfully", error));
+  };
+
+  useEffect(() => {
+    GetAccountPosts();
+    console.log("fired");
+  }, [auth.user]);
 
   useEffect(() => {}, [auth]);
 
@@ -96,6 +120,53 @@ export const App: React.FC = () => {
           render={() => (
             <>
               <Register />
+            </>
+          )}
+        ></Route>
+
+        {/* ACCOUNT FEED */}
+        <Route
+          exact
+          path="/profile"
+          render={() => (
+            <>
+              <Navbar
+                setPostModal={setPostModal}
+                setBackdrop={setBackdrop}
+                PostModalFunc={PostModalFunc}
+                setRegister={setRegister}
+                setLogin={setLogin}
+                setDropdown={setDropdown}
+                dropdown={dropdown}
+              />
+              <AccountFeed
+                setAccountPosts={setAccountPosts}
+                accountPosts={accountPosts}
+                GetAccountPosts={GetAccountPosts}
+                setBackdrop={setBackdrop}
+                setModal={setModal}
+                accountModal={accountModal}
+              />
+            </>
+          )}
+        ></Route>
+
+        {/* EDIT PROFILE ROUTE */}
+        <Route
+          exact
+          path="/editprofile"
+          render={() => (
+            <>
+              <Navbar
+                setPostModal={setPostModal}
+                setBackdrop={setBackdrop}
+                PostModalFunc={PostModalFunc}
+                setRegister={setRegister}
+                setLogin={setLogin}
+                setDropdown={setDropdown}
+                dropdown={dropdown}
+              />
+              <EditProfile />
             </>
           )}
         ></Route>

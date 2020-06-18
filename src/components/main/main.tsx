@@ -15,12 +15,14 @@ interface Props {
 interface Comment {
   name: string;
   comment: string;
+  img: string;
 }
 
 const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
   const [{ auth }, dispatch] = useStateValue();
   const [comment, setComment] = useState<Comment>({
     name: auth.user.username,
+    img: auth.user.img,
     comment: "",
   });
 
@@ -69,7 +71,7 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
       .catch((error) => console.error("post not updated succesfully", error));
     GetPosts();
 
-    setComment({ name: auth.user.username, comment: "" });
+    setComment({ name: auth.user.username, img: auth.user.img, comment: "" });
   };
 
   return (

@@ -1,0 +1,78 @@
+.profile-main {
+  display: flex;
+  margin-top: 50px;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(247, 247, 247);
+  .header {
+    display: flex;
+    justify-content: center;
+    font-size: 35px;
+    width: 80%;
+    // background-color: rgb(226, 136, 136);
+    margin-top: 20px;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgb(207, 207, 207);
+    .header-left {
+      display: flex;
+      justify-content: flex-end;
+      width: 50%;
+      //   background-color: green;
+
+      img {
+        height: 135px;
+        width: 150px;
+        border-radius: 50%;
+        margin-right: 50px;
+      }
+    }
+    .header-right {
+      display: flex;
+      flex-direction: column;
+      //   align-items: center;
+      width: 57%;
+      //   background-color: rgb(96, 96, 194);
+      button {
+        width: 90px;
+        margin-top: 5px;
+        padding: 3px 0px;
+        background-color: transparent;
+        border: 1px solid rgb(190, 190, 190);
+        border-radius: 3px;
+        font-weight: 500;
+        outline: none;
+        cursor: pointer;
+      }
+    }
+  }
+  .post-container-main {
+    display: flex;
+    // background-color: blue;
+    width: 81%;
+    justify-content: flex-start;
+    margin-top: 30px;
+    padding-bottom: 20px;
+    flex-direction: row;
+
+    .post-container {
+      display: flex;
+      justify-content: flex-start;
+      margin-left: 10px;
+      height: 600px;
+      width: 450px;
+      max-width: 450px;
+      margin-right: 15px;
+      //   background-color: rgb(177, 96, 96);
+      img {
+        height: 600px;
+        width: 100%;
+        cursor: pointer;
+      }
+      img:hover {
+        transform: scale(1.01);
+        opacity: 0.95;
+      }
+    }
+  }
+}

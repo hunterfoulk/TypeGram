@@ -103,6 +103,21 @@ router.route("/posts").get(async (req, res) => {
   }
 });
 
+router.route("/accountfeed").get(async (req, res) => {
+  try {
+    const { user_id } = req.query;
+    console.log(user_id);
+
+    const getPosts = await pool.query(
+      "SELECT * FROM posts WHERE user_id = $1",
+      [user_id]
+    );
+    res.json(getPosts.rows);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
 router.route("/posts").post(async (req, res) => {
   try {
     const { poster } = req.body;
@@ -227,7 +242,6 @@ router.route("/updatelikes").get(async (req, res) => {
     let parsedUsers = JSON.parse(users);
     let parsedUser = JSON.parse(user);
     parsedUsers.push(parsedUser);
-    console.log(users);
 
     const updatePost = await pool.query(
       "UPDATE posts SET likes = $1, users = $2 WHERE post_id = $3",
