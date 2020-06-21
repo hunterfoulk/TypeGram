@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useStateValue } from "../../state";
 import { Link, useHistory } from "react-router-dom";
+import "./login.scss";
+import PhonePicTwo from "../../images/phonepic2.png";
 
 interface Props {
   setLogin: SetLogin;
@@ -47,40 +49,52 @@ const Login: React.FC<Props> = ({ setLogin }) => {
   };
 
   return (
-    <div className="login-modal">
-      <div className="header">
-        <span>Login</span>
+    <div className="register-main">
+      <div className="register-left-container">
+        <div className="pic-container">
+          <img src={PhonePicTwo} />
+        </div>
       </div>
-      <form onSubmit={(e: FormEvent) => HandleLogin(e)}>
-        <span>Username</span>
-        <input
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
-            console.log(e.target.value);
-          }}
-        />
-        <span>Password</span>
-        <input
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-            console.log(e.target.value);
-          }}
-        />
-        <button type="submit">Login</button>
-      </form>
-      <span
-        onClick={() => history.push("/register")}
-        style={{
-          textAlign: "center",
-          color: "#405de6",
-          marginTop: "10px",
-          cursor: "pointer",
-        }}
-      >
-        Dont have an account? Signup
-      </span>
+      <div className="register-right-container">
+        <div className="register-modal">
+          <div className="header">
+            <span>Login</span>
+          </div>
+          <form onSubmit={(e: FormEvent) => HandleLogin(e)}>
+            <span>Username</span>
+            <input
+              style={{ marginBottom: "15px", fontSize: "20px" }}
+              value={username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+                console.log(e.target.value);
+              }}
+            />
+            <span>Password</span>
+            <input
+              style={{ marginBottom: "5px", fontSize: "20px" }}
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                console.log(e.target.value);
+              }}
+            />
+
+            <button type="submit">Login</button>
+          </form>
+          <span
+            onClick={() => history.push("/register")}
+            style={{
+              textAlign: "center",
+              color: "#405de6",
+              marginTop: "20px",
+              cursor: "pointer",
+            }}
+          >
+            Dont have an account? Signup
+          </span>
+        </div>
+      </div>
     </div>
   );
 };

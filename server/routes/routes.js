@@ -66,6 +66,33 @@ function uploadToS3(file) {
   });
 }
 
+// update profile pic
+function uploadProfilePicToS3(file) {
+  let s3bucket = new AWS.S3({
+    accessKeyId: IAM_USER_KEY,
+    secretAccessKey: IAM_USER_SECRET,
+    Bucket: BUCKET_NAME,
+  });
+  s3bucket.createBucket(function () {
+    var params = {
+      Bucket: BUCKET_NAME,
+      Key: `instacloneprofilepics/${file.name}`,
+      Body: file.data,
+      ACL: "public-read",
+      ContentType: file.mimetype,
+    };
+    console.log("this is the image metadeta", params);
+    s3bucket.upload(params, function (err, data) {
+      if (err) {
+        console.log("error in callback");
+        console.log(err);
+      }
+      console.log("success");
+      console.log(data);
+    });
+  });
+}
+
 //picture s3 post
 function postUploadToS3(file) {
   let s3bucket = new AWS.S3({
@@ -95,7 +122,7 @@ function postUploadToS3(file) {
 
 router.route("/posts").get(async (req, res) => {
   try {
-    const getPosts = await pool.query("SELECT * FROM posts");
+    const getPosts = await pool.query("SELECT * FROM posts ORDER BY post_id");
 
     res.json(getPosts.rows);
   } catch (error) {
@@ -143,7 +170,7 @@ router.route("/posts").post(async (req, res) => {
         poster,
         caption,
         parseInt(userId),
-        `https://airbnbbucket.s3.us-east-2.amazonaws.com/instacloneposts/${file.name}`,
+        `https://airbnbbucket.s3.us-east-2.amazonaws.com/instacloneprofilepics/${file.name}`,
         JSON.stringify(users),
         JSON.stringify(comments),
       ]
@@ -172,13 +199,19 @@ router.route("/signup").post(async (req, res) => {
       uploadToS3(file);
     });
     req.pipe(busboy);
+    let bio = "";
+    let website = "";
+    let name = "";
 
     const newUsers = await pool.query(
-      "INSERT INTO instagramusers (username,password,img) VALUES($1,$2,$3) RETURNING *",
+      "INSERT INTO instagramusers (username,password,img,bio,name,website) VALUES($1,$2,$3,$4,$5,$6) RETURNING *",
       [
         username,
         password,
         `https://airbnbbucket.s3.us-east-2.amazonaws.com/instaclonefolder/${file.name}`,
+        bio,
+        name,
+        website,
       ]
     );
     res.status(200).json(newUsers.rows);
@@ -211,6 +244,9 @@ router.route("/login").post(async (req, res) => {
         password: password,
         user_id: user.user_id,
         img: user.img,
+        bio: user.bio,
+        website: user.website,
+        name: user.name,
       };
 
       const token = jwt.sign(payload, SECRET);
@@ -244,7 +280,7 @@ router.route("/updatelikes").get(async (req, res) => {
     parsedUsers.push(parsedUser);
 
     const updatePost = await pool.query(
-      "UPDATE posts SET likes = $1, users = $2 WHERE post_id = $3",
+      "UPDATE posts SET likes = $1, users = $2 WHERE post_id = $3 ",
       [newLikes, JSON.stringify(parsedUsers), postId]
     );
 
@@ -274,13 +310,288 @@ router.route("/updatecomments").get(async (req, res) => {
     console.log(parsedComments);
 
     const updateComments = await pool.query(
-      "UPDATE posts SET comments = $1 WHERE post_id = $2",
+      "UPDATE posts SET comments = $1 WHERE post_id = $2 ",
       [JSON.stringify(parsedComments), post_id]
     );
     console.log(updateComments.rows[0]);
     res.status(200).json(updateComments.rows[0]);
   } catch (error) {
     console.error(error.message);
+  }
+});
+
+router.route("/updatepic").post(async (req, res) => {
+  try {
+    const { user_id } = req.body;
+
+    var busboy = new Busboy({ headers: req.headers });
+    const file = req.files.img;
+    console.log("server img", file);
+    console.log("server user id", user_id);
+
+    busboy.on("finish", function () {
+      console.log("Upload finished");
+
+      console.log(file);
+      uploadProfilePicToS3(file);
+    });
+    req.pipe(busboy);
+
+    const updatePic = await pool.query(
+      "UPDATE instagramusers SET img = $1 WHERE user_id = $2",
+      [
+        `https://airbnbbucket.s3.us-east-2.amazonaws.com/instaclonefolder/${file.name}`,
+        parseInt(user_id),
+      ]
+    );
+    console.log(updatePic.rows[0]);
+
+    const newPic = await pool.query(
+      "SELECT * FROM instagramusers WHERE user_id = $1 ",
+      [user_id]
+    );
+
+    let user = newPic.rows[0];
+
+    const payload = {
+      username: user.username,
+      password: user.password,
+      user_id: user.user_id,
+      img: user.img,
+    };
+
+    res.status(200).send({ payload: payload });
+    console.log("payload", payload);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
+router.route("/getuser").get(async (req, res) => {
+  try {
+    const { user_id } = req.query;
+
+    const getUser = await pool.query(
+      "SELECT * FROM instagramusers WHERE user_id = $1",
+      [user_id]
+    );
+
+    console.log(getUser.rows[0]);
+    res.status(200).json(getUser.rows[0]);
+  } catch (error) {
+    console.error(error.message);
+  }
+});
+
+router.route("/updatemisc").post(async (req, res) => {
+  try {
+    const { bio } = req.body;
+    const { website } = req.body;
+    const { name } = req.body;
+    const { user_id } = req.body;
+    console.log("bio", bio);
+    console.log("name", name);
+    console.log("website", website);
+    console.log("user_id", user_id);
+
+    if (bio && website && name) {
+      const updateMisc = await pool.query(
+        "UPDATE instagramusers SET bio = $1, website = $2, name = $3 WHERE user_id = $4",
+        [bio, website, name, parseInt(user_id)]
+      );
+
+      console.log(updateMisc.rows[0]);
+
+      const newMisc = await pool.query(
+        "SELECT * FROM instagramusers WHERE user_id = $1 ",
+        [user_id]
+      );
+
+      let user = newMisc.rows[0];
+
+      const payload = {
+        username: user.username,
+        password: user.password,
+        user_id: user.user_id,
+        img: user.img,
+        bio: user.bio,
+        website: user.website,
+        name: user.name,
+      };
+
+      res.status(200).send({ payload: payload });
+      console.log("payload", payload);
+      ////////////////////////////////////////////////////////////////////////////////////////////////
+    } else if (name === "" && bio === "") {
+      const updateMisc = await pool.query(
+        "UPDATE instagramusers SET website = $1 WHERE user_id = $2",
+        [website, parseInt(user_id)]
+      );
+
+      console.log(updateMisc.rows[0]);
+
+      const newMisc = await pool.query(
+        "SELECT * FROM instagramusers WHERE user_id = $1 ",
+        [user_id]
+      );
+
+      let user = newMisc.rows[0];
+
+      const payload = {
+        username: user.username,
+        password: user.password,
+        user_id: user.user_id,
+        img: user.img,
+        bio: user.bio,
+        website: user.website,
+        name: user.name,
+      };
+
+      res.status(200).send({ payload: payload });
+      console.log("payload", payload);
+      ////////////////////////////////////////////////////////////////////////////////////////////////
+    } else if (website === "" && name === "") {
+      const updateMisc = await pool.query(
+        "UPDATE instagramusers SET bio = $1 WHERE user_id = $2",
+        [bio, parseInt(user_id)]
+      );
+
+      console.log(updateMisc.rows[0]);
+
+      const newMisc = await pool.query(
+        "SELECT * FROM instagramusers WHERE user_id = $1 ",
+        [user_id]
+      );
+
+      let user = newMisc.rows[0];
+
+      const payload = {
+        username: user.username,
+        password: user.password,
+        user_id: user.user_id,
+        img: user.img,
+        bio: user.bio,
+        website: user.website,
+        name: user.name,
+      };
+
+      res.status(200).send({ payload: payload });
+      console.log("payload", payload);
+      ////////////////////////////////////////////////////////////////////////////////////////////////
+    } else if (bio === "" && website === "") {
+      const updateMisc = await pool.query(
+        "UPDATE instagramusers SET name = $1 WHERE user_id = $2",
+        [name, parseInt(user_id)]
+      );
+
+      console.log(updateMisc.rows[0]);
+
+      const newMisc = await pool.query(
+        "SELECT * FROM instagramusers WHERE user_id = $1 ",
+        [user_id]
+      );
+
+      let user = newMisc.rows[0];
+
+      const payload = {
+        username: user.username,
+        password: user.password,
+        user_id: user.user_id,
+        img: user.img,
+        bio: user.bio,
+        website: user.website,
+        name: user.name,
+      };
+
+      res.status(200).send({ payload: payload });
+      console.log("payload", payload);
+      /////////////////////////////////////////////////////////////////////////////////////////////////
+    } else if (bio && name) {
+      const updateMisc = await pool.query(
+        "UPDATE instagramusers SET bio = $1, name = $2 WHERE user_id = $3",
+        [bio, name, parseInt(user_id)]
+      );
+
+      console.log(updateMisc.rows[0]);
+
+      const newMisc = await pool.query(
+        "SELECT * FROM instagramusers WHERE user_id = $1 ",
+        [user_id]
+      );
+
+      let user = newMisc.rows[0];
+
+      const payload = {
+        username: user.username,
+        password: user.password,
+        user_id: user.user_id,
+        img: user.img,
+        bio: user.bio,
+        website: user.website,
+        name: user.name,
+      };
+
+      res.status(200).send({ payload: payload });
+      console.log("payload", payload);
+      /////////////////////////////////////////////////////////////////////////////////////////////////
+    } else if (bio && website) {
+      const updateMisc = await pool.query(
+        "UPDATE instagramusers SET bio = $1, website = $2 WHERE user_id = $3",
+        [bio, website, parseInt(user_id)]
+      );
+
+      console.log(updateMisc.rows[0]);
+
+      const newMisc = await pool.query(
+        "SELECT * FROM instagramusers WHERE user_id = $1 ",
+        [user_id]
+      );
+
+      let user = newMisc.rows[0];
+
+      const payload = {
+        username: user.username,
+        password: user.password,
+        user_id: user.user_id,
+        img: user.img,
+        bio: user.bio,
+        website: user.website,
+        name: user.name,
+      };
+
+      res.status(200).send({ payload: payload });
+      console.log("payload", payload);
+      /////////////////////////////////////////////////////////////////////////////////////////////////
+    } else if (website && name) {
+      const updateMisc = await pool.query(
+        "UPDATE instagramusers SET website = $1, name = $2 WHERE user_id = $3",
+        [website, name, parseInt(user_id)]
+      );
+
+      console.log(updateMisc.rows[0]);
+
+      const newMisc = await pool.query(
+        "SELECT * FROM instagramusers WHERE user_id = $1 ",
+        [user_id]
+      );
+
+      let user = newMisc.rows[0];
+
+      const payload = {
+        username: user.username,
+        password: user.password,
+        user_id: user.user_id,
+        img: user.img,
+        bio: user.bio,
+        website: user.website,
+        name: user.name,
+      };
+
+      res.status(200).send({ payload: payload });
+      console.log("payload", payload);
+    }
+  } catch (error) {
+    console.log("server error", error);
   }
 });
 

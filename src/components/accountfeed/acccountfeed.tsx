@@ -61,6 +61,13 @@ const AccountFeed: React.FC<Props> = ({
           <span style={{ fontSize: "15px", marginTop: "5px" }}>
             Posts {postNum}
           </span>
+          <span style={{ fontSize: "16px" }}>{auth.user.name}</span>
+          <div className="bio">
+            <span>{auth.user.bio}</span>
+          </div>
+          <a style={{ fontSize: "20px" }} href="https://hunterfoulk.com/">
+            {auth.user.website}
+          </a>
         </div>
       </div>
       <div className="post-container-main">

@@ -10,7 +10,7 @@
     justify-content: center;
     position: absolute;
     padding-top: 25px;
-    padding-bottom: 20px;
+    padding-bottom: 5px;
     background-color: white;
     z-index: 600;
     width: 400px;
@@ -19,6 +19,24 @@
     left: 50%;
     top: 15%;
     transform: translate(-50%) !important;
+    .pic-confirm {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 0px;
+      // background-color: red;
+      border-top: 1px solid rgb(216, 216, 216);
+      cursor: pointer;
+      button {
+        background-color: transparent;
+        border: none;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        outline: none;
+      }
+    }
     .pic-header {
       display: flex;
       justify-content: center;
@@ -29,35 +47,60 @@
       // background-color: red;
       border-bottom: 1px solid rgb(216, 216, 216);
     }
-    .pic-upload {
+    form {
       display: flex;
       width: 100%;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 15px 0px;
-      // background-color: red;
-      border-bottom: 1px solid rgb(216, 216, 216);
-      button {
-        background-color: transparent;
-        color: #0095f6;
-        border: none;
+      .pic-upload {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        padding: 15px 0px;
+        // background-color: red;
+        border-bottom: 1px solid rgb(216, 216, 216);
+        // button {
+        //   background-color: transparent;
+        //   color: #0095f6;
+        //   border: none;
+        //   font-size: 18px;
+        //   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+        //     Helvetica, Arial, sans-serif;
+        //   cursor: pointer;
+        //   font-weight: 500;
+        // }
+
+        label {
+          padding: 10px;
+          background: white;
+          display: table;
+          color: #0095f6;
+          font-weight: 500;
+          cursor: pointer;
+          font-size: 18px;
+          width: 100%;
+          text-align: center;
+        }
+
+        input[type="file"] {
+          display: none;
+        }
+      }
+
+      .cancel-upload {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        padding-top: 15px;
         font-size: 18px;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-          Helvetica, Arial, sans-serif;
+        color: #ed4956;
         cursor: pointer;
         font-weight: 500;
+        padding-bottom: 15px;
+        // background-color: red;
       }
-    }
-    .cancel-upload {
-      display: flex;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-      padding-top: 15px;
-      font-size: 18px;
-      color: #ed4956;
-      cursor: pointer;
-      font-weight: 500;
     }
   }
   .edit-container {
@@ -122,7 +165,12 @@
         display: block;
         font-weight: 600;
         position: relative;
+        outline: none;
         top: 40px;
+      }
+      button:hover {
+        background-color: #0a8be0;
+        border: 1px solid #0a8be0;
       }
     }
   }

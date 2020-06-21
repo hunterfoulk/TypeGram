@@ -72,7 +72,25 @@ export const App: React.FC = () => {
     console.log("fired");
   }, [auth.user]);
 
-  useEffect(() => {}, [auth]);
+  // const GetUser = async () => {
+  //   let user_id = auth.user.user_id;
+
+  //   const queryParams = { params: { user_id } };
+
+  //   await axios
+  //     .get("http://localhost:5000/instagram/getuser", queryParams)
+  //     .then((res) => {
+  //       console.log("app data", res.data);
+  //     })
+  //     .catch((error) => console.error("post not updated succesfully", error));
+  // };
+
+  // useEffect(() => {}, [auth]);
+
+  // useEffect(() => {
+  //   GetUser();
+  //   console.log("profile picture changed");
+  // }, [auth.user.img]);
 
   return (
     <div className="App">
@@ -176,6 +194,7 @@ export const App: React.FC = () => {
                 setPicModal={setPicModal}
                 picmodal={picmodal}
                 PostModalFuncClose={PostModalFuncClose}
+                GetAccountPosts={GetAccountPosts}
               />
             </>
           )}
