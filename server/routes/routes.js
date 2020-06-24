@@ -170,7 +170,7 @@ router.route("/posts").post(async (req, res) => {
         poster,
         caption,
         parseInt(userId),
-        `https://airbnbbucket.s3.us-east-2.amazonaws.com/instacloneprofilepics/${file.name}`,
+        `https://airbnbbucket.s3.us-east-2.amazonaws.com/instacloneposts/${file.name}`,
         JSON.stringify(users),
         JSON.stringify(comments),
       ]

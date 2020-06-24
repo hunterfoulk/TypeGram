@@ -31,31 +31,52 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
   }, []);
 
   const IncrementLikes = async (post: any, i: number) => {
+    // console.log("users in comments", post.users);
+
     let postId = parseInt(post.post_id);
     let user = auth.user;
+    if (post.users.some((p: any) => p.user_id === user.user_id)) {
+      console.log("user in array", user.user_id);
+      let filteredUsers = post.users.filter(
+        (user: any) => user.user_id === user.user_id
+      );
+      console.log("new users in array", filteredUsers);
 
-    let postsCopy: any = [...posts];
-    let indexOfPost = postsCopy.findIndex(
-      (i: any) => i.post_id === post.post_id
-    );
+      // let postsCopy: any = [...posts];
+      // let indexOfPost = postsCopy.findIndex(
+      //   (i: any) => i.post_id === post.post_id
+      // );
 
-    postsCopy[indexOfPost].likes++;
-    let newLikes = post.likes;
+      // postsCopy[indexOfPost].likes--;
+      // let newLikes = post.likes;
+      // console.log("newlikes", newLikes);
 
-    setPosts(postsCopy);
+      //////////////////////////////////////////////////////////
+    } else {
+      let postsCopy: any = [...posts];
+      let indexOfPost = postsCopy.findIndex(
+        (i: any) => i.post_id === post.post_id
+      );
 
-    const queryParams = { params: { postId, newLikes, user } };
+      postsCopy[indexOfPost].likes++;
+      let newLikes = post.likes;
 
-    console.log("likes", newLikes);
+      setPosts(postsCopy);
+      console.log("users", post.users);
 
-    await axios
-      .get("http://localhost:5000/instagram/updatelikes", queryParams)
-      .then((res) => {
-        console.log("main data", res.data);
+      const queryParams = { params: { postId, newLikes, user } };
 
-        GetPosts();
-      })
-      .catch((error) => console.error("post not updated succesfully", error));
+      console.log("likes", newLikes);
+
+      await axios
+        .get("http://localhost:5000/instagram/updatelikes", queryParams)
+        .then((res) => {
+          console.log("main data", res.data);
+
+          GetPosts();
+        })
+        .catch((error) => console.error("post not updated succesfully", error));
+    }
   };
 
   const NewComment = async (e: FormEvent, post: any, comment: {}) => {

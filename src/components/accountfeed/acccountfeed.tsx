@@ -65,7 +65,10 @@ const AccountFeed: React.FC<Props> = ({
           <div className="bio">
             <span>{auth.user.bio}</span>
           </div>
-          <a style={{ fontSize: "20px" }} href="https://hunterfoulk.com/">
+          <a
+            style={{ fontSize: "20px", width: "fit-content" }}
+            href={`https://${auth.user.website}`}
+          >
             {auth.user.website}
           </a>
         </div>

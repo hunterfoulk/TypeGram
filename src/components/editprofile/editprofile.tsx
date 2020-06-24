@@ -18,15 +18,15 @@ const EditProfile: React.FC<Props> = ({
   picmodal,
   setBackdrop,
   PostModalFuncClose,
-
   GetAccountPosts,
 }) => {
   const [{ auth }, dispatch] = useStateValue();
-  const [img, setImg] = useState<any>(null);
+  const [img, setImg] = useState<any>();
   const [website, setWebsite] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [name, setName] = useState<string>("");
   const history = useHistory();
+  const reader = new FileReader();
 
   const handlePicChange = async (e: FormEvent) => {
     e.preventDefault();

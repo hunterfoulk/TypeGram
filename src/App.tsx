@@ -129,7 +129,22 @@ export const App: React.FC = () => {
           path="/"
           render={() => (
             <>
-              <Login setLogin={setLogin} />
+              {auth.token ? (
+                <>
+                  <Navbar
+                    setPostModal={setPostModal}
+                    setBackdrop={setBackdrop}
+                    PostModalFunc={PostModalFunc}
+                    setRegister={setRegister}
+                    setLogin={setLogin}
+                    setDropdown={setDropdown}
+                    dropdown={dropdown}
+                  />
+                  <Main setPosts={setPosts} GetPosts={GetPosts} posts={posts} />{" "}
+                </>
+              ) : (
+                <Login setLogin={setLogin} />
+              )}
             </>
           )}
         ></Route>

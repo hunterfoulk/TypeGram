@@ -52,8 +52,9 @@ const Register: React.FC = () => {
       <div className="register-right-container">
         <div className="register-modal">
           <div className="header">
-            <span>Signup</span>
+            <span>TypeGram</span>
           </div>
+          <span style={{ textAlign: "center", fontSize: "24px" }}>Sign up</span>
           <form onSubmit={(e: FormEvent) => HandleRegister(e)}>
             <span>Username</span>
             <input

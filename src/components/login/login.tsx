@@ -58,8 +58,9 @@ const Login: React.FC<Props> = ({ setLogin }) => {
       <div className="register-right-container">
         <div className="register-modal">
           <div className="header">
-            <span>Login</span>
+            <span>TypeGram</span>
           </div>
+          <span style={{ textAlign: "center", fontSize: "24px" }}>Login</span>
           <form onSubmit={(e: FormEvent) => HandleLogin(e)}>
             <span>Username</span>
             <input
