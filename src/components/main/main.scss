@@ -4,10 +4,41 @@
   width: 100%;
   margin-top: 50px;
   background-color: rgb(247, 247, 247);
+  // background-color: red;
   margin-bottom: 20px;
+
   .comment-container {
     display: flex;
     margin-top: 15px;
+  }
+  .main-profile-container {
+    display: flex;
+    // background-color: green;
+    width: 15%;
+    justify-content: center;
+    margin-left: 20px;
+    margin-top: 30px;
+    .profile-username {
+      display: flex;
+      flex-direction: column;
+      height: 100px;
+      width: 100%;
+      // background-color: rgb(177, 104, 104);
+      span {
+        font-size: 25px;
+      }
+    }
+    .profile-img-container {
+      height: 65px;
+      width: 35%;
+      display: flex;
+      background-color: purple;
+      margin-right: 10px;
+      img {
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
   }
   .post-container {
     display: flex;
@@ -15,6 +46,7 @@
     width: 27%;
     margin-top: 30px;
     // background-color: rgb(202, 142, 142);
+    margin-left: 180px;
     .post {
       display: flex;
       flex-direction: column;

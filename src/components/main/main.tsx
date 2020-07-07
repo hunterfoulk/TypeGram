@@ -5,6 +5,7 @@ import axios from "axios";
 import { useStateValue } from "../../state";
 import "react-tippy/dist/tippy.css";
 import { Tooltip } from "react-tippy";
+import { Link, useHistory } from "react-router-dom";
 
 interface Props {
   posts: Post[];
@@ -25,6 +26,7 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
     img: auth.user.img,
     comment: "",
   });
+  const history = useHistory();
 
   useEffect(() => {
     console.log("auth", auth.user.username);
@@ -41,17 +43,6 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
         (user: any) => user.user_id === user.user_id
       );
       console.log("new users in array", filteredUsers);
-
-      // let postsCopy: any = [...posts];
-      // let indexOfPost = postsCopy.findIndex(
-      //   (i: any) => i.post_id === post.post_id
-      // );
-
-      // postsCopy[indexOfPost].likes--;
-      // let newLikes = post.likes;
-      // console.log("newlikes", newLikes);
-
-      //////////////////////////////////////////////////////////
     } else {
       let postsCopy: any = [...posts];
       let indexOfPost = postsCopy.findIndex(
@@ -184,6 +175,20 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
             </div>
           </>
         ))}
+      </div>
+      <div className="main-profile-container">
+        <div className="profile-img-container">
+          <img src={auth.user.img} />
+        </div>
+        <div className="profile-username">
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() => history.push("/profile")}
+          >
+            {auth.user.username}
+          </span>
+          <span style={{ fontSize: "16px" }}>{auth.user.name}</span>
+        </div>
       </div>
     </div>
   );

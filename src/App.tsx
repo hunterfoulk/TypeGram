@@ -11,6 +11,7 @@ import Backdrop from "./components/backdrop/backdrop";
 import { useStateValue } from "../src/state";
 import AccountFeed from "./components/accountfeed/acccountfeed";
 import EditProfile from "./components/editprofile/editprofile";
+import ModalTransition from "./components/transition";
 
 export const App: React.FC = () => {
   const [login, setLogin] = useState<boolean>(false);
@@ -96,13 +97,15 @@ export const App: React.FC = () => {
     <div className="App">
       <Router>
         {backdrop && <Backdrop PostModalFuncClose={PostModalFuncClose} />}
-        {postModal && (
-          <PostModal
-            GetPosts={GetPosts}
-            PostModalFuncClose={PostModalFuncClose}
-            GetAccountPosts={GetAccountPosts}
-          />
-        )}
+        <ModalTransition postModal={postModal}>
+          {postModal && (
+            <PostModal
+              GetPosts={GetPosts}
+              PostModalFuncClose={PostModalFuncClose}
+              GetAccountPosts={GetAccountPosts}
+            />
+          )}
+        </ModalTransition>
 
         <Route
           exact
