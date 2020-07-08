@@ -61,7 +61,7 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
 
       await axios
         .get(
-          "http://localhost:9000/.netlify/functions/server/typegram/updatelikes",
+          "https://elegant-haibt-a61338.netlify.app/.netlify/functions/server/typegram/updatelikes",
           queryParams
         )
         .then((res) => {
@@ -81,7 +81,7 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
 
     await axios
       .get(
-        "http://localhost:9000/.netlify/functions/server/typegram/updatecomments",
+        "https://elegant-haibt-a61338.netlify.app/.netlify/functions/server/typegram/updatecomments",
         queryParams
       )
       .then((res) => {
