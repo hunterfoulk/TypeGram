@@ -26,7 +26,7 @@ const Register: React.FC = () => {
 
     await axios
       .post(
-        "http://localhost:9000/.netlify/functions/server/register",
+        "https://elegant-haibt-a61338.netlify.app/.netlify/functions/server/typegram/register",
         userData,
         {
           headers: headers,

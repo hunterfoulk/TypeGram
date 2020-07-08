@@ -46,7 +46,7 @@ const AccountPost: React.FC<Props> = ({
 
     await axios
       .get(
-        "http://localhost:9000/.netlify/functions/server/typegram/updatecomments",
+        "https://elegant-haibt-a61338.netlify.app/.netlify/functions/server/typegram/updatecomments",
         queryParams
       )
       .then((res) => {

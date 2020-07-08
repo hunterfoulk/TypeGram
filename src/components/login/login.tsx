@@ -17,10 +17,13 @@ const Login: React.FC<Props> = () => {
     e.preventDefault();
 
     await axios
-      .post("http://localhost:9000/.netlify/functions/server/typegram/login", {
-        username: username,
-        password: password,
-      })
+      .post(
+        "https://elegant-haibt-a61338.netlify.app/.netlify/functions/server/typegram/login",
+        {
+          username: username,
+          password: password,
+        }
+      )
       .then((res) => {
         const user = res.data.payload;
         localStorage.setItem("token", res.data.token);

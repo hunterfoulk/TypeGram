@@ -39,7 +39,7 @@ export const App: React.FC = () => {
   const GetPosts = async () => {
     try {
       const response = await fetch(
-        "http://localhost:9000/.netlify/functions/server/typegram/posts"
+        "https://elegant-haibt-a61338.netlify.app/.netlify/functions/server/typegram/posts"
       );
       const jsonData = await response.json();
 
@@ -61,7 +61,7 @@ export const App: React.FC = () => {
 
     await axios
       .get(
-        "http://localhost:9000/.netlify/functions/server/typegram/accountfeed",
+        "https://elegant-haibt-a61338.netlify.app/.netlify/functions/server/typegram/accountfeed",
         queryParams
       )
       .then((res) => {
