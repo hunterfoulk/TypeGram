@@ -14,8 +14,6 @@ import EditProfile from "./components/editprofile/editprofile";
 import ModalTransition from "./components/transition";
 
 export const App: React.FC = () => {
-  const [login, setLogin] = useState<boolean>(false);
-  const [register, setRegister] = useState<boolean>(false);
   const [postModal, setPostModal] = useState<boolean>(false);
   const [backdrop, setBackdrop] = useState<boolean>(false);
   const [dropdown, setDropdown] = useState<boolean>(false);
@@ -40,7 +38,9 @@ export const App: React.FC = () => {
 
   const GetPosts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/instagram/posts");
+      const response = await fetch(
+        "http://localhost:9000/.netlify/functions/server/typegram/posts"
+      );
       const jsonData = await response.json();
 
       setPosts(jsonData);
@@ -60,7 +60,10 @@ export const App: React.FC = () => {
     const queryParams = { params: { user_id } };
 
     await axios
-      .get("http://localhost:5000/instagram/accountfeed", queryParams)
+      .get(
+        "http://localhost:9000/.netlify/functions/server/typegram/accountfeed",
+        queryParams
+      )
       .then((res) => {
         console.log("app data", res.data);
         setAccountPosts(res.data);
@@ -116,8 +119,6 @@ export const App: React.FC = () => {
                 setPostModal={setPostModal}
                 setBackdrop={setBackdrop}
                 PostModalFunc={PostModalFunc}
-                setRegister={setRegister}
-                setLogin={setLogin}
                 setDropdown={setDropdown}
                 dropdown={dropdown}
               />
@@ -138,15 +139,13 @@ export const App: React.FC = () => {
                     setPostModal={setPostModal}
                     setBackdrop={setBackdrop}
                     PostModalFunc={PostModalFunc}
-                    setRegister={setRegister}
-                    setLogin={setLogin}
                     setDropdown={setDropdown}
                     dropdown={dropdown}
                   />
                   <Main setPosts={setPosts} GetPosts={GetPosts} posts={posts} />{" "}
                 </>
               ) : (
-                <Login setLogin={setLogin} />
+                <Login />
               )}
             </>
           )}
@@ -173,8 +172,6 @@ export const App: React.FC = () => {
                 setPostModal={setPostModal}
                 setBackdrop={setBackdrop}
                 PostModalFunc={PostModalFunc}
-                setRegister={setRegister}
-                setLogin={setLogin}
                 setDropdown={setDropdown}
                 dropdown={dropdown}
               />
@@ -202,8 +199,6 @@ export const App: React.FC = () => {
                 setPostModal={setPostModal}
                 setBackdrop={setBackdrop}
                 PostModalFunc={PostModalFunc}
-                setRegister={setRegister}
-                setLogin={setLogin}
                 setDropdown={setDropdown}
                 dropdown={dropdown}
               />

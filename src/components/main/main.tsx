@@ -60,7 +60,10 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
       console.log("likes", newLikes);
 
       await axios
-        .get("http://localhost:5000/instagram/updatelikes", queryParams)
+        .get(
+          "http://localhost:9000/.netlify/functions/server/typegram/updatelikes",
+          queryParams
+        )
         .then((res) => {
           console.log("main data", res.data);
 
@@ -77,7 +80,10 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
     const queryParams = { params: { post_id, comment } };
 
     await axios
-      .get("http://localhost:5000/instagram/updatecomments", queryParams)
+      .get(
+        "http://localhost:9000/.netlify/functions/server/typegram/updatecomments",
+        queryParams
+      )
       .then((res) => {
         console.log("data", res.data);
       })

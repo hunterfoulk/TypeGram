@@ -7,8 +7,6 @@ import { Tooltip } from "react-tippy";
 import { Link, useHistory } from "react-router-dom";
 
 interface Props {
-  setLogin: SetLogin;
-  setRegister: SetRegister;
   setPostModal: SetPostModal;
   setBackdrop: SetBackDrop;
   setDropdown: SetDropDown;
@@ -16,13 +14,7 @@ interface Props {
   PostModalFunc: () => void;
 }
 
-const Navbar: React.FC<Props> = ({
-  setLogin,
-  setRegister,
-  PostModalFunc,
-  setDropdown,
-  dropdown,
-}) => {
+const Navbar: React.FC<Props> = ({ PostModalFunc, setDropdown, dropdown }) => {
   const [modal, setModal] = useState(false);
   const [{ auth }, dispatch] = useStateValue();
   const history = useHistory();
@@ -85,8 +77,8 @@ const Navbar: React.FC<Props> = ({
           )}
         </div>
       </div>
-      )}
     </>
   );
 };
+
 export default Navbar;

@@ -43,10 +43,14 @@ const EditProfile: React.FC<Props> = ({
     };
 
     await axios
-      .post("http://localhost:5000/instagram/updatepic", userData, {
-        headers: headers,
-        withCredentials: true,
-      })
+      .post(
+        "http://localhost:9000/.netlify/functions/server/typegram/updatepic",
+        userData,
+        {
+          headers: headers,
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         const user = res.data.payload;
         console.log("response", res);
@@ -72,12 +76,15 @@ const EditProfile: React.FC<Props> = ({
     e.preventDefault();
     let user_id = auth.user.user_id;
     await axios
-      .post("http://localhost:5000/instagram/updatemisc", {
-        name: name,
-        website: website,
-        bio: bio,
-        user_id: user_id,
-      })
+      .post(
+        "http://localhost:9000/.netlify/functions/server/typegram/updatemisc",
+        {
+          name: name,
+          website: website,
+          bio: bio,
+          user_id: user_id,
+        }
+      )
       .then((res) => {
         let user = res.data.payload;
         console.log("respone", res);

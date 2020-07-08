@@ -42,10 +42,14 @@ const PostModal: React.FC<Props> = ({
     };
 
     await axios
-      .post("http://localhost:5000/instagram/posts", postData, {
-        headers: headers,
-        withCredentials: true,
-      })
+      .post(
+        "http://localhost:9000/.netlify/functions/server/typegram/posts",
+        postData,
+        {
+          headers: headers,
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         console.log("response", res);
         console.log("post sent to database");

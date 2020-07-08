@@ -25,10 +25,14 @@ const Register: React.FC = () => {
     };
 
     await axios
-      .post("http://localhost:5000/instagram/signup", userData, {
-        headers: headers,
-        withCredentials: true,
-      })
+      .post(
+        "http://localhost:9000/.netlify/functions/server/register",
+        userData,
+        {
+          headers: headers,
+          withCredentials: true,
+        }
+      )
       .then((res) => {
         console.log("respone", res);
         console.log("signup sent to database");

@@ -5,11 +5,9 @@ import { Link, useHistory } from "react-router-dom";
 import "./login.scss";
 import PhonePicTwo from "../../images/phonepic2.png";
 
-interface Props {
-  setLogin: SetLogin;
-}
+interface Props {}
 
-const Login: React.FC<Props> = ({ setLogin }) => {
+const Login: React.FC<Props> = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [{ auth }, dispatch] = useStateValue();
@@ -19,7 +17,7 @@ const Login: React.FC<Props> = ({ setLogin }) => {
     e.preventDefault();
 
     await axios
-      .post("http://localhost:5000/instagram/login", {
+      .post("http://localhost:9000/.netlify/functions/server/typegram/login", {
         username: username,
         password: password,
       })
@@ -44,7 +42,7 @@ const Login: React.FC<Props> = ({ setLogin }) => {
       .catch((error) => {
         console.error("error", error);
       });
-    setLogin(false);
+
     history.push("/feed");
   };
 

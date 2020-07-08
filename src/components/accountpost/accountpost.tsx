@@ -45,7 +45,10 @@ const AccountPost: React.FC<Props> = ({
     const queryParams = { params: { post_id, comment } };
 
     await axios
-      .get("http://localhost:5000/instagram/updatecomments", queryParams)
+      .get(
+        "http://localhost:9000/.netlify/functions/server/typegram/updatecomments",
+        queryParams
+      )
       .then((res) => {
         console.log("account post data", res.data);
       })
