@@ -59,6 +59,7 @@ const PostModal: React.FC<Props> = ({
       });
 
     GetAccountPosts();
+    GetPosts();
     PostModalFuncClose();
     console.log("poster", poster);
   };
