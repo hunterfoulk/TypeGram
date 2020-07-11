@@ -74,7 +74,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     GetAccountPosts();
-    console.log("fired");
+    console.log("fired useEffect");
   }, [auth.user]);
 
   // const GetUser = async () => {
