@@ -39,8 +39,7 @@ export const App: React.FC = () => {
   const GetPosts = async () => {
     try {
       const response = await fetch(
-        "https://cors-anywhere.herokuapp.com/" +
-          "https://elegant-haibt-a61338.netlify.app/.netlify/functions/server/typegram/posts"
+        "https://elegant-haibt-a61338.netlify.app/.netlify/functions/server/typegram/posts"
       );
       const jsonData = await response.json();
 
