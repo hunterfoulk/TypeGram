@@ -53,7 +53,7 @@ const PostModal: React.FC<Props> = ({
       .then((res) => {
         console.log("response", res);
         console.log("post sent to database");
-        GetPosts();
+        // GetPosts();
       })
       .catch((error) => {
         console.error("error", error);
