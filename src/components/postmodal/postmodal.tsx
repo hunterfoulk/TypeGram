@@ -43,7 +43,7 @@ const PostModal: React.FC<Props> = ({
 
     await axios
       .post(
-        "https://elegant-haibt-a61338.netlify.app/.netlify/functions/server/typegram/posts",
+        "http://localhost:9000/.netlify/functions/server/typegram/updatepic",
         postData,
         {
           headers: headers,
