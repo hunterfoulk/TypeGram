@@ -50,9 +50,9 @@ export const App: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    GetPosts();
-  }, []);
+  // useEffect(() => {
+  //   GetPosts();
+  // }, []);
 
   const GetAccountPosts = async () => {
     let user_id = auth.user.user_id;
@@ -71,10 +71,10 @@ export const App: React.FC = () => {
       .catch((error) => console.error("post not updated succesfully", error));
   };
 
-  useEffect(() => {
-    GetAccountPosts();
-    console.log("fired useEffect");
-  }, [auth.user]);
+  // useEffect(() => {
+  //   GetAccountPosts();
+  //   console.log("fired useEffect");
+  // }, [auth.user]);
 
   // const GetUser = async () => {
   //   let user_id = auth.user.user_id;

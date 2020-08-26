@@ -59,9 +59,13 @@ const AccountPost: React.FC<Props> = ({
     console.log("post", content);
   };
 
+  // useEffect(() => {
+  //   console.log("fireddd");
+  //   GetAccountPosts();
+  // }, [accountPosts]);
   useEffect(() => {
-    console.log("fireddd");
-  }, [accountPosts]);
+    GetAccountPosts();
+  }, []);
 
   return (
     <>

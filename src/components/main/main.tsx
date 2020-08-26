@@ -30,6 +30,7 @@ const Main: React.FC<Props> = ({ posts, GetPosts, setPosts }) => {
 
   useEffect(() => {
     console.log("auth", auth.user.username);
+    GetPosts();
   }, []);
 
   const IncrementLikes = async (post: any, i: number) => {
